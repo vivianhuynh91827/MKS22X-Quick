@@ -74,4 +74,22 @@ public class Quick {
     }
     return s;
   }
+
+  /*return the value that is the kth smallest value of the array.
+ */
+  public static int quickselect(int[] data, int k){
+    int s = 0;
+    int e = data.length-1;
+    int cur = partition(data, s, e);
+    while (cur != k) {
+      if (cur < k) {
+        s = cur + 1;
+      }
+      else {
+        e = cur - 1;
+      }
+      cur = partition(data, s, e);
+    }
+    return data[cur];
+  }
 }
