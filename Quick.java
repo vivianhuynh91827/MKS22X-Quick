@@ -10,68 +10,71 @@ public class Quick {
  *4. all elements in range that are larger than the pivot element are placed after the pivot element.
  *@return the index of the final position of the pivot element.
  */
-  public static int partition(int[] data, int start, int end) {
-    Random randgen = new Random(2);
-    int pivot = data[(end-start)/2];
-    // System.out.println(printArray(data));
-    //System.out.println("Pivot: " + pivot);
-    data[(end-start)/2] = data[start]; //move pivot out of the way
-    //System.out.println(printArray(data));
-    data[start] = pivot;
-    //ystem.out.println(printArray(data));
-    int s = start;
-    int e = end;
-    s++;
-    //System.out.println(s);
-    int cur = data[s];
-    while (s != e) {
-      // System.out.println(cur);
-      if (cur > pivot) {
-        int holder = data[e];
-        data[e] = cur;
-        data[s] = holder;
-        e--;
-        //System.out.println(printArray(data));
-      }
-      else if (cur < pivot) {
-        s++;
-      }
-      else if (cur == pivot) {
-        int chances = randgen.nextInt();
-        if (chances == 0) {
-          s++;
-        }
-        else {
-          int holder = data[e];
-          data[e] = cur;
-          data[s] = holder;
-          e--;
-        }
-      }
-      cur = data[s];
-      // System.out.println(printArray(data));
-    }
-    //ystem.out.println(s);
-    if (data[s] < pivot) {
-      int holder = data[s];
-      data[s] = pivot;
-      data[start] = holder;
-      return s;
-    }
-    else {
-      int holder = data[s-1];
-      data[s-1] = pivot;
-      data[start] = holder;
-      return s-1;
-    }
-    // System.out.println(printArray(data));
-  }
+ public static int partition(int[] data, int start, int end) {
+   if (data.length == 0 || data.length == 1) return start;
+   Random randgen = new Random(2);
+   int pivot = data[(end-start)/2];
+   // System.out.println(printArray(data));
+   //System.out.println("Pivot: " + pivot);
+   data[(end-start)/2] = data[start]; //move pivot out of the way
+   //System.out.println(printArray(data));
+   data[start] = pivot;
+   //ystem.out.println(printArray(data));
+   int s = start;
+   int e = end;
+   s++;
+   //System.out.println(s);
+   int cur = data[s];
+   while (s != e) {
+     cur = data[s];
+     // System.out.println(cur);
+     if (cur > pivot) {
+       int holder = data[e];
+       data[e] = cur;
+       data[s] = holder;
+       e--;
+       //System.out.println(printArray(data));
+     }
+     else if (cur < pivot) {
+       s++;
+     }
+     else if (cur == pivot) {
+       int chances = randgen.nextInt() % 2;
+       if (chances == 0) {
+         s++;
+       }
+       else {
+         int holder = data[e];
+         data[e] = cur;
+         data[s] = holder;
+         e--;
+       }
+     }
+     // System.out.println(printArray(data));
+   }
+   //ystem.out.println(s);
+   if (data[s] < pivot) {
+     int holder = data[s];
+     data[s] = pivot;
+     data[start] = holder;
+     return s;
+   }
+   else {
+     int holder = data[s-1];
+     data[s-1] = pivot;
+     data[start] = holder;
+     return s-1;
+   }
+   // System.out.println(printArray(data));
+ }
 
   public static String printArray(int[] ary) {
-    String s = "";
+    String s = "[";
     for (int i = 0; i < ary.length ;i ++) {
-      s += ary[i] + " ";
+      s += ary[i] + ", ";
     }
+    s = s.substring(0,s.length()-2);
+    s += "]";
     return s;
   }
 
@@ -91,5 +94,25 @@ public class Quick {
       cur = partition(data, s, e);
     }
     return data[cur];
+  }
+
+  /*Modify the array to be in increasing order.
+ */
+  public static void quicksort(int[] data) {
+    quickSortH(data, 0, data.length-1);
+  }
+
+  private static void quickSortH(int[] data, int lo, int hi) {
+    if (hi <= lo) return;
+    int pivot = partition(data,lo,hi);
+    quickSortH(data, lo, pivot-1);
+    quickSortH(data, pivot + 1, hi);
+  }
+
+  public static void main(String[] args) {
+    int[] test = {6,222,8,5,8,3,5,637,3};
+    // System.out.println(quickselect(test, 1));
+    quicksort(test);
+    System.out.println(printArray(test));
   }
 }
