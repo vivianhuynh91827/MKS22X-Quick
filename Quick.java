@@ -68,15 +68,32 @@ public class Quick {
    }
  }
 
-  public static String printArray(int[] ary) {
-    String s = "[";
-    for (int i = 0; i < ary.length ;i ++) {
-      s += ary[i] + ", ";
-    }
-    s = s.substring(0,s.length()-2);
-    s += "]";
-    return s;
-  }
+ public static int[] partitionDutch(int[] data, int lo, int hi) {
+   int lt = lo;
+   int gt = hi;
+   int i = lo + 1;
+   int pivot = lo;
+   while (gt >= i) {
+     if (data[i] == data[pivot]) {
+       i++;
+     }
+     else if (data[i]< data[pivot]) {
+       int temp = data[i];
+       data[i] = data[lt];
+       data[lt] = temp; //swap lt and i
+       lt++;
+       i++;
+       pivot++;
+     }
+     else if (data[i]>data[pivot]) {
+       int temp = data[i];
+       data[i] = data[gt];
+       data[gt] = temp; //swap gt and i
+       gt--;
+     }
+   }
+   return new int[] {lt,gt};
+ }
 
   /*return the value that is the kth smallest value of the array.
  */
