@@ -97,7 +97,7 @@ public class Quick {
 
   /*return the value that is the kth smallest value of the array.
  */
-  public static int quickselect(int[] data, int k){
+  public static int oldQuickselect(int[] data, int k){
     int s = 0;
     int e = data.length-1;
     int pivotInd = partition(data, s, e);
@@ -116,6 +116,22 @@ public class Quick {
       // System.out.println(cur);
     }
     return data[pivotInd];
+  }
+
+  public static int quickselect(int[] data, int k) {
+    int s = 0;
+    int e = data.length-1;
+    int[] pivotInd = partitionDutch(data, s, e);
+    while (k != pivotInd[0] && k != pivotInd[1]) {
+      if (k >= pivotInd[0]) {
+        s = pivotInd[1]+1;
+      }
+      else {
+        e = pivotInd[0]-1;
+      }
+      pivotInd = partitionDutch(data,s,e);
+    }
+    return data[pivotInd[0]];
   }
 
   /*Modify the array to be in increasing order.
