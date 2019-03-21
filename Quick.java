@@ -142,10 +142,34 @@ public class Quick {
 
   private static void quickSortH(int[] data, int lo, int hi) {
     if (hi <= lo) return;
+    if (data.length < 43) {
+      insertionsort(data,lo,hi);
+      return;
+    }
     int[] pivotInds = partitionDutch(data,lo,hi);
     quickSortH(data, lo, pivotInds[0]-1);
     quickSortH(data, pivotInds[1] + 1, hi);
   }
+
+  public static void insertionsort(int[] data, int lo, int hi) {
+    for (int i = lo+1; i <= hi; i ++) {
+      int cur = data[i];
+      for (int x = i - 1; x >= 0; x--) {
+        if (cur < data[x]){
+          data[x+1]=data[x];
+          if (x==0) {
+            data[lo]=cur;
+          }
+        }
+        else if (cur > data[x]) {
+          data[x+1]=cur;
+          x--;
+        }
+      }
+      // System.out.println(Arrays.toString(data));
+    }
+  }
+
   public static void main(String[]args){
   System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
   int[]MAX_LIST = {1000000000,500,10};
